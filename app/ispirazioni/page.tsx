@@ -1,38 +1,22 @@
 import { Search, Sparkles, Leaf, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import prisma from "@/lib/prisma";
 
-// Mock data destinazioni ESATTE dal video
-const destinazioni = [
-  {
-    id: 1,
-    numero: 9,
-    nome: "Maratea",
-    sottotitolo: "Perla del Tirreno",
-    quietScore: 78,
-    descrizione: "Costa lucana tra Campania e Calabria. Cristo Redentore, spiagge selvagge, cucina di mare autentica.",
-    immagine: "/placeholder-maratea.jpg"
-  },
-  {
-    id: 2,
-    numero: 10,
-    nome: "Cefalù",
-    sottotitolo: "Sicilia normanna",
-    quietScore: 65,
-    descrizione: "Borgo marinaro con Duomo normanno, spiaggia dorata e Lavatoio medievale.",
-    immagine: "/placeholder-cefalu.jpg"
-  },
-  {
-    id: 3,
-    numero: 11,
-    nome: "Urbino",
-    sottotitolo: "Gioiello rinascimentale",
-    quietScore: 82,
-    descrizione: "Città ideale del Rinascimento, Palazzo Ducale e atmosfera universitaria tranquilla.",
-    immagine: "/placeholder-urbino.jpg"
-  },
-];
+export default async function IspirazioniPage() {
+  // Fetch real destinations from DB
+  const destinazioni = await prisma.destination.findMany({
+    orderBy: {
+      quietScore: "desc",
+    },
+    take: 10,
+    include: {
+      _count: {
+        select: { pois: true },
+      },
+    },
+  });
 
-export default function IspirazioniPage() {
   return (
     <div className="min-h-screen px-6 pt-4 pb-24">
       {/* Search Bar */}
@@ -175,91 +159,89 @@ export default function IspirazioniPage() {
         </button>
       </div>
 
-      {/* Lista Destinazioni */}
+      {/* Lista Destinazioni REALI */}
       <div className="space-y-4">
-        {destinazioni.map((dest) => (
-          <div
-            key={dest.id}
-            className="card-shadow"
-            style={{
-              backgroundColor: '#FFFFFF',
-              borderRadius: '20px',
-              border: '1px solid #F0F0EB',
-              padding: '20px',
-              display: 'flex',
-              gap: '16px'
-            }}
-          >
-            {/* Numero grande */}
-            <div 
-              className="font-serif font-bold"
+        {destinazioni.map((dest, index) => (
+          <Link key={dest.id} href={`/destinazioni/${dest.slug}`}>
+            <div
+              className="card-shadow cursor-pointer"
               style={{
-                fontSize: '32px',
-                color: 'rgba(0,0,0,0.08)',
-                lineHeight: '1',
-                minWidth: '32px'
+                backgroundColor: '#FFFFFF',
+                borderRadius: '20px',
+                border: '1px solid #F0F0EB',
+                padding: '20px',
+                display: 'flex',
+                gap: '16px'
               }}
             >
-              {dest.numero}
-            </div>
-
-            {/* Contenuto */}
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                <div>
-                  <h3 
-                    className="font-sans font-semibold mb-0.5"
-                    style={{ fontSize: '18px', color: '#1A1A1A' }}
-                  >
-                    {dest.nome}
-                  </h3>
-                  <p 
-                    className="font-sans"
-                    style={{ fontSize: '13px', color: '#6B6B6B' }}
-                  >
-                    {dest.sottotitolo}
-                  </p>
-                </div>
-
-                {/* Quiet Score Badge */}
-                <div 
-                  className="score-gradient flex items-center gap-1"
-                  style={{
-                    padding: '6px 10px',
-                    borderRadius: '16px'
-                  }}
-                >
-                  <Leaf style={{ width: '14px', height: '14px', color: '#FFFFFF' }} />
-                  <span 
-                    className="font-sans font-bold"
-                    style={{ fontSize: '14px', color: '#FFFFFF' }}
-                  >
-                    {dest.quietScore}
-                  </span>
-                </div>
-              </div>
-
-              <p 
-                className="font-sans mb-3"
-                style={{ fontSize: '13px', color: '#6B6B6B', lineHeight: '18px' }}
-              >
-                {dest.descrizione}
-              </p>
-
-              <button 
-                className="font-sans font-medium"
+              {/* Numero grande */}
+              <div 
+                className="font-serif font-bold"
                 style={{
-                  fontSize: '13px',
-                  color: '#7C5FBA',
-                  background: 'none',
-                  border: 'none',
-                  padding: 0
+                  fontSize: '32px',
+                  color: 'rgba(0,0,0,0.08)',
+                  lineHeight: '1',
+                  minWidth: '32px'
                 }}
               >
-                Scopri la città →
-              </button>
+                {index + 1}
+              </div>
+
+              {/* Contenuto */}
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                  <div>
+                    <h3 
+                      className="font-sans font-semibold mb-0.5"
+                      style={{ fontSize: '18px', color: '#1A1A1A' }}
+                    >
+                      {dest.name}
+                    </h3>
+                    <p 
+                      className="font-sans"
+                      style={{ fontSize: '13px', color: '#6B6B6B' }}
+                    >
+                      {dest.subtitle || dest.region}
+                    </p>
+                  </div>
+
+                  {/* Quiet Score Badge */}
+                  <div 
+                    className="score-gradient flex items-center gap-1"
+                    style={{
+                      padding: '6px 10px',
+                      borderRadius: '16px'
+                    }}
+                  >
+                    <Leaf style={{ width: '14px', height: '14px', color: '#FFFFFF' }} />
+                    <span 
+                      className="font-sans font-bold"
+                      style={{ fontSize: '14px', color: '#FFFFFF' }}
+                    >
+                      {dest.quietScore}
+                    </span>
+                  </div>
+                </div>
+
+                <p 
+                  className="font-sans mb-3"
+                  style={{ fontSize: '13px', color: '#6B6B6B', lineHeight: '18px' }}
+                >
+                  {dest.description?.substring(0, 120)}...
+                </p>
+
+                <div 
+                  className="font-sans font-medium"
+                  style={{
+                    fontSize: '13px',
+                    color: '#7C5FBA',
+                  }}
+                >
+                  Scopri la città →
+                </div>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

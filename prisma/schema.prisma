@@ -1,0 +1,198 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["quiettravel"]
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============ AUTH ============
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  savedDestinations SavedDestination[]
+  savedPOIs         SavedPOI[]
+  savedTours        SavedTour[]
+  stats             UserStats?
+  achievements      UserAchievement[]
+
+  @@map("qt_users")
+  @@schema("quiettravel")
+}
+
+// ============ CONTENT ============
+
+model Destination {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  subtitle    String?
+  region      String
+  province    String?
+  description String?
+  quietScore  Int      @default(0)
+  imageUrl    String?
+  lat         Float?
+  lng         Float?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  pois              POI[]
+  tours             Tour[]
+  savedDestinations SavedDestination[]
+
+  @@index([region])
+  @@index([quietScore])
+  @@map("qt_destinations")
+  @@schema("quiettravel")
+}
+
+model POI {
+  id           String   @id @default(cuid())
+  name         String
+  type         String // "Natura", "Food", "Cultura", "Arte", etc.
+  description  String?
+  quietScore   Int      @default(0)
+  lat          Float
+  lng          Float
+  imageUrl     String?
+  address      String?
+  openingHours String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  savedPOIs     SavedPOI[]
+
+  @@index([type])
+  @@index([quietScore])
+  @@map("qt_pois")
+  @@schema("quiettravel")
+}
+
+model Tour {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  duration    String // "1-2 ore", "Giornata intera", etc.
+  radius      Int      @default(5) // km
+  mood        String[] // ["arte", "natura", "food"]
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  savedTours    SavedTour[]
+
+  @@map("qt_tours")
+  @@schema("quiettravel")
+}
+
+// ============ USER SAVES ============
+
+model SavedDestination {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, destinationId])
+  @@map("qt_saved_destinations")
+  @@schema("quiettravel")
+}
+
+model SavedPOI {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  poiId  String
+  poi    POI    @relation(fields: [poiId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, poiId])
+  @@map("qt_saved_pois")
+  @@schema("quiettravel")
+}
+
+model SavedTour {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tourId String
+  tour   Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tourId])
+  @@map("qt_saved_tours")
+  @@schema("quiettravel")
+}
+
+// ============ GAMIFICATION ============
+
+model UserStats {
+  id                String   @id @default(cuid())
+  level             String   @default("Curioso Urbano") // "Curioso Urbano", "Cercatore di Quiete", etc.
+  averageQuietScore Float    @default(0)
+  totalTrips        Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("qt_user_stats")
+  @@schema("quiettravel")
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String
+  icon        String
+  requirement String // JSON: {"type": "savedDestinations", "count": 3}
+  createdAt   DateTime @default(now())
+
+  userAchievements UserAchievement[]
+
+  @@map("qt_achievements")
+  @@schema("quiettravel")
+}
+
+model UserAchievement {
+  id          String   @id @default(cuid())
+  unlockedAt  DateTime @default(now())
+  progress    Int      @default(0) // Per achievement progressivi
+  isCompleted Boolean  @default(false)
+
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@map("qt_user_achievements")
+  @@schema("quiettravel")
+}
