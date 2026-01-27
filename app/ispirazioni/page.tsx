@@ -1,7 +1,8 @@
-import { Search, Sparkles, Leaf, ChevronDown } from "lucide-react";
+import { Sparkles, Leaf, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import { SearchBar } from "@/components/search-bar";
 
 export default async function IspirazioniPage() {
   // Fetch real destinations from DB
@@ -20,24 +21,8 @@ export default async function IspirazioniPage() {
   return (
     <div className="min-h-screen px-6 pt-4 pb-24">
       {/* Search Bar */}
-      <div className="relative mb-4">
-        <Search 
-          className="absolute left-4 top-1/2 -translate-y-1/2" 
-          style={{ width: '18px', height: '18px', color: '#9B9B9B' }} 
-        />
-        <input
-          type="text"
-          placeholder="Cerca collezioni, regioni, città..."
-          className="w-full pl-11 pr-4 font-sans"
-          style={{
-            height: '48px',
-            backgroundColor: '#FFFFFF',
-            border: '1px solid #E5E5E0',
-            borderRadius: '24px',
-            fontSize: '14px',
-            outline: 'none'
-          }}
-        />
+      <div className="mb-4">
+        <SearchBar placeholder="Cerca collezioni, regioni, città..." />
       </div>
 
       {/* Filtri */}

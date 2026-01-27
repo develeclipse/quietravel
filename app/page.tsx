@@ -1,5 +1,6 @@
-import { Sparkles, Calendar, MapPin, Search, ChevronRight } from "lucide-react";
+import { Sparkles, Calendar, MapPin, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { SearchBar } from "@/components/search-bar";
 
 export default function HomePage() {
   return (
@@ -46,30 +47,8 @@ export default function HomePage() {
       </div>
 
       {/* Search Bar */}
-      <div className="relative mb-8">
-        <Search 
-          className="absolute left-4 top-1/2 -translate-y-1/2" 
-          style={{ 
-            width: '18px', 
-            height: '18px',
-            color: '#9B9B9B'
-          }} 
-        />
-        <input
-          type="text"
-          placeholder="Cerca luoghi quiet..."
-          className="w-full pl-11 pr-4 font-sans"
-          style={{
-            height: '52px',
-            backgroundColor: '#FFFFFF',
-            border: '1px solid #E5E5E0',
-            borderRadius: '26px',
-            fontSize: '14px',
-            color: '#1A1A1A',
-            outline: 'none',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
-          }}
-        />
+      <div className="mb-8">
+        <SearchBar />
       </div>
 
       {/* 3 Action Cards */}
