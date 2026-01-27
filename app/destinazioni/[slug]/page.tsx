@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
-import { MapPin, Heart, Leaf, ArrowLeft, Calendar, Users } from "lucide-react";
+import { MapPin, Leaf, ArrowLeft, Calendar } from "lucide-react";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
+import { SaveDestinationButton } from "@/components/save-destination-button";
 
 export default async function DestinazionePage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
@@ -163,20 +164,7 @@ export default async function DestinazionePage(props: { params: Promise<{ slug: 
             <Calendar style={{ width: "18px", height: "18px" }} />
             Pianifica
           </button>
-          <button
-            className="card-shadow font-sans font-semibold flex items-center justify-center gap-2"
-            style={{
-              height: "48px",
-              backgroundColor: "#FFFFFF",
-              border: "1px solid #E5E5E0",
-              borderRadius: "24px",
-              fontSize: "14px",
-              color: "#1A1A1A",
-            }}
-          >
-            <Heart style={{ width: "18px", height: "18px" }} />
-            Salva
-          </button>
+          <SaveDestinationButton destinationId={destination.id} />
         </div>
 
         {/* Description */}
