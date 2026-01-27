@@ -16,8 +16,17 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-border md:hidden z-50">
-      <div className="flex justify-around items-center h-16 px-2">
+    <nav 
+      className="fixed bottom-0 left-0 right-0 md:hidden z-50"
+      style={{
+        backgroundColor: '#FFFFFF',
+        borderTop: '1px solid #E5E5E0'
+      }}
+    >
+      <div 
+        className="flex justify-around items-center px-2"
+        style={{ height: '64px' }}
+      >
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -26,14 +35,27 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 gap-1 py-2 px-1 rounded-lg transition-colors ${
-                isActive
-                  ? "text-[rgb(139 92 246)] bg-[rgb(139 92 246)]/10"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 1,
+                gap: '4px',
+                padding: '8px 4px',
+                borderRadius: '12px',
+                backgroundColor: isActive ? 'rgba(124, 95, 186, 0.08)' : 'transparent',
+                color: isActive ? '#7C5FBA' : '#9B9B9B',
+                transition: 'all 0.2s'
+              }}
             >
-              <Icon className="w-5 h-5" strokeWidth={2} />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <Icon style={{ width: '22px', height: '22px' }} strokeWidth={2} />
+              <span 
+                className="font-sans font-medium"
+                style={{ fontSize: '10px' }}
+              >
+                {item.label}
+              </span>
             </Link>
           );
         })}

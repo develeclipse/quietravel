@@ -1,135 +1,217 @@
-import { Sparkles, Calendar, MapPin, Search } from "lucide-react";
+import { Sparkles, Calendar, MapPin, Search, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="container max-w-md mx-auto px-4 py-6 space-y-6">
+    <div className="min-h-screen px-6 pt-4 pb-24">
       {/* Badge Anti-Overtourism */}
-      <div className="flex justify-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-[rgb(139 92 246)] rounded-full">
-          <Sparkles className="w-4 h-4 text-orange-500" fill="currentColor" />
-          <span className="text-sm font-semibold text-[rgb(139 92 246)]">
-            ANTI-OVERTOURISM
-          </span>
-        </div>
+      <div className="flex items-center gap-2 mb-5">
+        <Sparkles className="w-3 h-3" style={{ color: '#E8A855' }} fill="#E8A855" />
+        <span 
+          className="font-sans font-semibold tracking-widest"
+          style={{ 
+            fontSize: '10px',
+            color: '#6B6B6B',
+            letterSpacing: '1.5px'
+          }}
+        >
+          ANTI-OVERTOURISM
+        </span>
       </div>
 
       {/* Hero Section */}
-      <div className="text-center space-y-3 py-6">
-        <h1 className="text-4xl font-bold text-foreground leading-tight">
-          Viaggia slow,
-          <br />
-          scopri quiete
+      <div className="mb-7">
+        <h1 
+          className="font-serif font-bold leading-tight mb-3"
+          style={{ 
+            fontSize: '32px',
+            lineHeight: '38px',
+            color: '#1A1A1A',
+            maxWidth: '200px'
+          }}
+        >
+          Dove vuoi andare?
         </h1>
-        <p className="text-muted-foreground text-lg">
-          Destinazioni autentiche,
-          <br />
-          lontano dalla folla
+        <p 
+          className="font-sans"
+          style={{ 
+            fontSize: '14px',
+            lineHeight: '20px',
+            color: '#6B6B6B',
+            maxWidth: '280px'
+          }}
+        >
+          Inizia la tua esperienza quiet
         </p>
       </div>
 
       {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+      <div className="relative mb-8">
+        <Search 
+          className="absolute left-4 top-1/2 -translate-y-1/2" 
+          style={{ 
+            width: '18px', 
+            height: '18px',
+            color: '#9B9B9B'
+          }} 
+        />
         <input
           type="text"
           placeholder="Cerca luoghi quiet..."
-          className="w-full pl-12 pr-4 py-3 bg-white border border-border rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(139 92 246)]"
+          className="w-full pl-11 pr-4 font-sans"
+          style={{
+            height: '52px',
+            backgroundColor: '#FFFFFF',
+            border: '1px solid #E5E5E0',
+            borderRadius: '26px',
+            fontSize: '14px',
+            color: '#1A1A1A',
+            outline: 'none',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+          }}
         />
       </div>
 
       {/* 3 Action Cards */}
-      <div className="space-y-4 pt-4">
+      <div className="space-y-4">
+        {/* Card 1: Ispirati */}
         <Link href="/ispirazioni">
-          <div className="bg-white p-5 rounded-2xl border border-border hover:shadow-lg transition-shadow cursor-pointer group">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-[rgb(139 92 246)]/10 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-[rgb(139 92 246)]" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg">Ispirati</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Collezioni, storie e destinazioni
-                  </p>
-                </div>
-              </div>
-              <svg
-                className="w-6 h-6 text-muted-foreground group-hover:translate-x-1 transition-transform"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          <div 
+            className="card-shadow-hover cursor-pointer"
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: '24px',
+              border: '1px solid #F0F0EB',
+              padding: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div 
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(124, 95, 186, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+                <Sparkles style={{ width: '24px', height: '24px', color: '#7C5FBA' }} />
+              </div>
+              <div>
+                <h3 
+                  className="font-sans font-semibold mb-0.5"
+                  style={{ fontSize: '18px', color: '#1A1A1A' }}
+                >
+                  Ispirati
+                </h3>
+                <p 
+                  className="font-sans"
+                  style={{ fontSize: '13px', color: '#6B6B6B' }}
+                >
+                  Collezioni, storie e destinazioni
+                </p>
+              </div>
             </div>
+            <ChevronRight style={{ width: '20px', height: '20px', color: '#9B9B9B' }} />
           </div>
         </Link>
 
+        {/* Card 2: Pianifica */}
         <Link href="/pianifica">
-          <div className="bg-white p-5 rounded-2xl border border-border hover:shadow-lg transition-shadow cursor-pointer group">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center">
-                  <Calendar className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg">Pianifica</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Itinerari e pacchetti tematici
-                  </p>
-                </div>
-              </div>
-              <svg
-                className="w-6 h-6 text-muted-foreground group-hover:translate-x-1 transition-transform"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          <div 
+            className="card-shadow-hover cursor-pointer"
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: '24px',
+              border: '1px solid #F0F0EB',
+              padding: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div 
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(95, 184, 148, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+                <Calendar style={{ width: '24px', height: '24px', color: '#5FB894' }} />
+              </div>
+              <div>
+                <h3 
+                  className="font-sans font-semibold mb-0.5"
+                  style={{ fontSize: '18px', color: '#1A1A1A' }}
+                >
+                  Pianifica
+                </h3>
+                <p 
+                  className="font-sans"
+                  style={{ fontSize: '13px', color: '#6B6B6B' }}
+                >
+                  Itinerari e pacchetti tematici
+                </p>
+              </div>
             </div>
+            <ChevronRight style={{ width: '20px', height: '20px', color: '#9B9B9B' }} />
           </div>
         </Link>
 
+        {/* Card 3: Vicino a me */}
         <Link href="/vicino">
-          <div className="bg-white p-5 rounded-2xl border border-border hover:shadow-lg transition-shadow cursor-pointer group">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-orange-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg">Vicino a me</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Posti segreti e alternative quiet
-                  </p>
-                </div>
-              </div>
-              <svg
-                className="w-6 h-6 text-muted-foreground group-hover:translate-x-1 transition-transform"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          <div 
+            className="card-shadow-hover cursor-pointer"
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: '24px',
+              border: '1px solid #F0F0EB',
+              padding: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div 
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(232, 168, 85, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+                <MapPin style={{ width: '24px', height: '24px', color: '#E8A855' }} />
+              </div>
+              <div>
+                <h3 
+                  className="font-sans font-semibold mb-0.5"
+                  style={{ fontSize: '18px', color: '#1A1A1A' }}
+                >
+                  Vicino a me
+                </h3>
+                <p 
+                  className="font-sans"
+                  style={{ fontSize: '13px', color: '#6B6B6B' }}
+                >
+                  Posti segreti e alternative quiet
+                </p>
+              </div>
             </div>
+            <ChevronRight style={{ width: '20px', height: '20px', color: '#9B9B9B' }} />
           </div>
         </Link>
       </div>

@@ -1,121 +1,263 @@
-import { Search, Sparkles, SlidersHorizontal, Leaf } from "lucide-react";
+import { Search, Sparkles, Leaf, ChevronDown } from "lucide-react";
+import Image from "next/image";
 
-// Mock data destinazioni
+// Mock data destinazioni ESATTE dal video
 const destinazioni = [
   {
     id: 1,
+    numero: 9,
     nome: "Maratea",
     sottotitolo: "Perla del Tirreno",
     quietScore: 78,
-    descrizione:
-      "Costa lucana tra Campania e Calabria. Cristo Redentore, spiagge selvagge, cucina di mare autentica.",
+    descrizione: "Costa lucana tra Campania e Calabria. Cristo Redentore, spiagge selvagge, cucina di mare autentica.",
+    immagine: "/placeholder-maratea.jpg"
   },
   {
     id: 2,
+    numero: 10,
     nome: "Cefalù",
     sottotitolo: "Sicilia normanna",
     quietScore: 65,
-    descrizione:
-      "Borgo marinaro con Duomo normanno, spiaggia dorata e Lavatoio medievale.",
+    descrizione: "Borgo marinaro con Duomo normanno, spiaggia dorata e Lavatoio medievale.",
+    immagine: "/placeholder-cefalu.jpg"
   },
   {
     id: 3,
+    numero: 11,
     nome: "Urbino",
     sottotitolo: "Gioiello rinascimentale",
     quietScore: 82,
-    descrizione:
-      "Città ideale del Rinascimento, Palazzo Ducale e atmosfera universitaria tranquilla.",
-  },
-  {
-    id: 4,
-    nome: "Sperlonga",
-    sottotitolo: "Borgo bianco sul mare",
-    quietScore: 71,
-    descrizione:
-      "Viuzze labirintiche, case bianche affacciate sul Tirreno e grotta di Tiberio.",
+    descrizione: "Città ideale del Rinascimento, Palazzo Ducale e atmosfera universitaria tranquilla.",
+    immagine: "/placeholder-urbino.jpg"
   },
 ];
 
 export default function IspirazioniPage() {
   return (
-    <div className="container max-w-md mx-auto px-4 py-6 space-y-6">
-      {/* Search + Filter */}
-      <div className="space-y-3">
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Cerca collezioni, regioni, città..."
-            className="w-full pl-12 pr-4 py-3 bg-white border border-border rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(139 92 246)]"
-          />
-        </div>
+    <div className="min-h-screen px-6 pt-4 pb-24">
+      {/* Search Bar */}
+      <div className="relative mb-4">
+        <Search 
+          className="absolute left-4 top-1/2 -translate-y-1/2" 
+          style={{ width: '18px', height: '18px', color: '#9B9B9B' }} 
+        />
+        <input
+          type="text"
+          placeholder="Cerca collezioni, regioni, città..."
+          className="w-full pl-11 pr-4 font-sans"
+          style={{
+            height: '48px',
+            backgroundColor: '#FFFFFF',
+            border: '1px solid #E5E5E0',
+            borderRadius: '24px',
+            fontSize: '14px',
+            outline: 'none'
+          }}
+        />
+      </div>
 
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-border rounded-full text-sm font-medium hover:bg-muted transition-colors">
-            <SlidersHorizontal className="w-4 h-4" />
-            Quiet Score & Date
-            <span className="w-5 h-5 rounded-full bg-[rgb(139 92 246)] text-white text-xs flex items-center justify-center">
-              1
-            </span>
+      {/* Filtri */}
+      <div className="flex gap-2 mb-6">
+        <button 
+          className="font-sans font-medium flex items-center gap-2"
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#FFFFFF',
+            border: '1px solid #E5E5E0',
+            borderRadius: '20px',
+            fontSize: '13px',
+            color: '#1A1A1A'
+          }}
+        >
+          Quiet Score & Date
+          <span 
+            style={{
+              width: '20px',
+              height: '20px',
+              borderRadius: '50%',
+              backgroundColor: '#7C5FBA',
+              color: '#FFFFFF',
+              fontSize: '11px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: '600'
+            }}
+          >
+            1
+          </span>
+        </button>
+      </div>
+
+      {/* Card con immagine grande - Umbria */}
+      <div 
+        className="mb-6 relative overflow-hidden"
+        style={{
+          borderRadius: '24px',
+          height: '200px'
+        }}
+      >
+        <div 
+          style={{
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%), url(https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800&q=80)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            padding: '20px'
+          }}
+        >
+          <h3 
+            className="font-serif font-semibold mb-1"
+            style={{ fontSize: '22px', color: '#FFFFFF', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
+          >
+            Umbria da scoprire lentamente
+          </h3>
+          <p 
+            className="font-sans mb-3"
+            style={{ fontSize: '14px', color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}
+          >
+            5 giorni, zero stress
+          </p>
+          <button 
+            className="font-sans font-medium flex items-center gap-1 self-start"
+            style={{
+              padding: '6px 14px',
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255,255,255,0.3)',
+              borderRadius: '16px',
+              fontSize: '12px',
+              color: '#FFFFFF'
+            }}
+          >
+            Mostra altre 3
+            <ChevronDown style={{ width: '14px', height: '14px' }} />
           </button>
         </div>
       </div>
 
       {/* AI Card */}
-      <div className="ai-gradient p-6 rounded-2xl border border-[rgb(139 92 246)]/20">
-        <div className="space-y-3">
-          <h3 className="font-semibold text-lg">Non sai ancora dove andare?</h3>
-          <p className="text-sm text-muted-foreground">
-            Lascia che la nostra AI ti suggerisca la destinazione perfetta in base alle tue preferenze
-          </p>
-          <button className="w-full btn-gradient text-white py-3 rounded-xl font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-            <Sparkles className="w-5 h-5" />
-            Scopri con l'AI
-          </button>
-        </div>
+      <div 
+        className="ai-gradient mb-6"
+        style={{
+          borderRadius: '24px',
+          padding: '20px'
+        }}
+      >
+        <h3 
+          className="font-sans font-semibold mb-2"
+          style={{ fontSize: '16px', color: '#1A1A1A' }}
+        >
+          Non sai ancora dove andare?
+        </h3>
+        <p 
+          className="font-sans mb-4"
+          style={{ fontSize: '13px', color: '#6B6B6B', lineHeight: '18px' }}
+        >
+          Lascia che la nostra AI ti suggerisca la destinazione perfetta in base alle tue preferenze
+        </p>
+        <button 
+          className="btn-gradient w-full font-sans font-semibold flex items-center justify-center gap-2"
+          style={{
+            height: '48px',
+            borderRadius: '24px',
+            fontSize: '15px',
+            color: '#FFFFFF',
+            border: 'none'
+          }}
+        >
+          <Sparkles style={{ width: '18px', height: '18px' }} />
+          Scopri con l'AI
+        </button>
       </div>
 
       {/* Lista Destinazioni */}
       <div className="space-y-4">
-        <h2 className="font-semibold text-xl">Destinazioni quiet</h2>
-
-        {destinazioni.map((dest, idx) => (
+        {destinazioni.map((dest) => (
           <div
             key={dest.id}
-            className="bg-white p-5 rounded-2xl border border-border hover:shadow-lg transition-shadow"
+            className="card-shadow"
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: '20px',
+              border: '1px solid #F0F0EB',
+              padding: '20px',
+              display: 'flex',
+              gap: '16px'
+            }}
           >
-            <div className="flex items-start gap-4">
-              {/* Numero */}
-              <div className="text-3xl font-bold text-muted-foreground/30">
-                {idx + 1}
-              </div>
+            {/* Numero grande */}
+            <div 
+              className="font-serif font-bold"
+              style={{
+                fontSize: '32px',
+                color: 'rgba(0,0,0,0.08)',
+                lineHeight: '1',
+                minWidth: '32px'
+              }}
+            >
+              {dest.numero}
+            </div>
 
-              <div className="flex-1">
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <div>
-                    <h3 className="font-semibold text-lg">{dest.nome}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {dest.sottotitolo}
-                    </p>
-                  </div>
-
-                  {/* Quiet Score Badge */}
-                  <div className="flex items-center gap-1 px-3 py-1 score-gradient rounded-full">
-                    <Leaf className="w-4 h-4 text-white" />
-                    <span className="text-white font-bold text-sm">
-                      {dest.quietScore}
-                    </span>
-                  </div>
+            {/* Contenuto */}
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                <div>
+                  <h3 
+                    className="font-sans font-semibold mb-0.5"
+                    style={{ fontSize: '18px', color: '#1A1A1A' }}
+                  >
+                    {dest.nome}
+                  </h3>
+                  <p 
+                    className="font-sans"
+                    style={{ fontSize: '13px', color: '#6B6B6B' }}
+                  >
+                    {dest.sottotitolo}
+                  </p>
                 </div>
 
-                <p className="text-sm text-muted-foreground mb-3">
-                  {dest.descrizione}
-                </p>
-
-                <button className="text-sm text-[rgb(139 92 246)] font-medium hover:underline">
-                  Scopri la città →
-                </button>
+                {/* Quiet Score Badge */}
+                <div 
+                  className="score-gradient flex items-center gap-1"
+                  style={{
+                    padding: '6px 10px',
+                    borderRadius: '16px'
+                  }}
+                >
+                  <Leaf style={{ width: '14px', height: '14px', color: '#FFFFFF' }} />
+                  <span 
+                    className="font-sans font-bold"
+                    style={{ fontSize: '14px', color: '#FFFFFF' }}
+                  >
+                    {dest.quietScore}
+                  </span>
+                </div>
               </div>
+
+              <p 
+                className="font-sans mb-3"
+                style={{ fontSize: '13px', color: '#6B6B6B', lineHeight: '18px' }}
+              >
+                {dest.descrizione}
+              </p>
+
+              <button 
+                className="font-sans font-medium"
+                style={{
+                  fontSize: '13px',
+                  color: '#7C5FBA',
+                  background: 'none',
+                  border: 'none',
+                  padding: 0
+                }}
+              >
+                Scopri la città →
+              </button>
             </div>
           </div>
         ))}

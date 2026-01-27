@@ -1,6 +1,5 @@
 import { MapPin, Navigation, Coffee, Mountain, Church, Leaf } from "lucide-react";
 
-// Mock POI nearby
 const pois = [
   {
     id: 1,
@@ -9,6 +8,7 @@ const pois = [
     distanza: "0.8 km",
     quietScore: 92,
     icon: Mountain,
+    color: "#5FB894"
   },
   {
     id: 2,
@@ -17,6 +17,7 @@ const pois = [
     distanza: "0.3 km",
     quietScore: 78,
     icon: Coffee,
+    color: "#E8A855"
   },
   {
     id: 3,
@@ -25,97 +26,153 @@ const pois = [
     distanza: "1.2 km",
     quietScore: 88,
     icon: Church,
+    color: "#7C5FBA"
   },
 ];
 
 export default function VicinoPage() {
   return (
-    <div className="container max-w-md mx-auto px-4 py-6 space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold mb-2">Vicino a te</h1>
-        <p className="text-sm text-muted-foreground">
+    <div className="min-h-screen px-6 pt-4 pb-24">
+      <div className="mb-4">
+        <h1 className="font-serif font-bold mb-1" style={{ fontSize: '28px', color: '#1A1A1A' }}>
+          Vicino a te
+        </h1>
+        <p className="font-sans" style={{ fontSize: '14px', color: '#6B6B6B' }}>
           Scopri luoghi quiet nella tua zona
         </p>
       </div>
 
       {/* Mappa Placeholder */}
-      <div className="relative w-full h-64 bg-gradient-to-br from-green-100 to-blue-100 rounded-2xl overflow-hidden border border-border">
-        {/* Mappa stilizzata */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center space-y-2">
-            <MapPin className="w-12 h-12 mx-auto text-[rgb(139 92 246)]" />
-            <p className="text-sm font-medium text-muted-foreground">
-              Mappa interattiva
-            </p>
-            <p className="text-xs text-muted-foreground">
-              (Demo: POI visualizzati sotto)
-            </p>
-          </div>
+      <div 
+        style={{
+          width: '100%',
+          height: '280px',
+          background: 'linear-gradient(135deg, #E8F5F0 0%, #E0F0FA 100%)',
+          borderRadius: '24px',
+          border: '1px solid #E5E5E0',
+          marginBottom: '16px',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <MapPin style={{ width: '48px', height: '48px', color: '#7C5FBA', margin: '0 auto 12px' }} />
+          <p className="font-sans font-medium" style={{ fontSize: '14px', color: '#6B6B6B' }}>
+            Mappa interattiva
+          </p>
         </div>
 
-        {/* Pin sulla mappa (decorativo) */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2">
-          <div className="w-8 h-8 bg-[rgb(139 92 246)] rounded-full flex items-center justify-center shadow-lg">
-            <Navigation className="w-5 h-5 text-white" />
-          </div>
+        {/* Pin centrale */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: '35%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '32px',
+            height: '32px',
+            backgroundColor: '#7C5FBA',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(124, 95, 186, 0.3)'
+          }}
+        >
+          <Navigation style={{ width: '18px', height: '18px', color: '#FFFFFF' }} />
         </div>
       </div>
 
       {/* Location Button */}
-      <button className="w-full flex items-center justify-center gap-2 py-3 bg-white border border-border rounded-xl hover:bg-muted transition-colors">
-        <Navigation className="w-5 h-5 text-[rgb(139 92 246)]" />
-        <span className="font-medium">Usa la mia posizione</span>
+      <button 
+        className="card-shadow w-full font-sans font-medium flex items-center justify-center gap-2"
+        style={{
+          height: '48px',
+          backgroundColor: '#FFFFFF',
+          border: '1px solid #E5E5E0',
+          borderRadius: '24px',
+          marginBottom: '24px',
+          fontSize: '14px',
+          color: '#1A1A1A'
+        }}
+      >
+        <Navigation style={{ width: '18px', height: '18px', color: '#7C5FBA' }} />
+        Usa la mia posizione
       </button>
 
       {/* POI List */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-lg">Luoghi nelle vicinanze</h2>
-          <button className="text-sm text-[rgb(139 92 246)] font-medium">
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h2 className="font-sans font-semibold" style={{ fontSize: '18px', color: '#1A1A1A' }}>
+            Luoghi nelle vicinanze
+          </h2>
+          <button className="font-sans font-medium" style={{ fontSize: '13px', color: '#7C5FBA' }}>
             Filtra
           </button>
         </div>
 
-        {pois.map((poi) => {
-          const Icon = poi.icon;
-          return (
-            <div
-              key={poi.id}
-              className="bg-white p-4 rounded-xl border border-border hover:shadow-md transition-shadow cursor-pointer"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[rgb(139 92 246)]/10 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-6 h-6 text-[rgb(139 92 246)]" />
+        <div className="space-y-3">
+          {pois.map((poi) => {
+            const Icon = poi.icon;
+            return (
+              <div
+                key={poi.id}
+                className="card-shadow cursor-pointer"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '20px',
+                  border: '1px solid #F0F0EB',
+                  padding: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px'
+                }}
+              >
+                <div 
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '16px',
+                    backgroundColor: `${poi.color}15`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}
+                >
+                  <Icon style={{ width: '24px', height: '24px', color: poi.color }} />
                 </div>
 
-                <div className="flex-1">
-                  <h3 className="font-semibold">{poi.nome}</h3>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>{poi.tipo}</span>
-                    <span>•</span>
-                    <span>{poi.distanza}</span>
+                <div style={{ flex: 1 }}>
+                  <h3 className="font-sans font-semibold" style={{ fontSize: '16px', color: '#1A1A1A', marginBottom: '2px' }}>
+                    {poi.nome}
+                  </h3>
+                  <div className="font-sans" style={{ fontSize: '13px', color: '#6B6B6B' }}>
+                    {poi.tipo} • {poi.distanza}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1 px-2 py-1 score-gradient rounded-full">
-                  <Leaf className="w-3 h-3 text-white" />
-                  <span className="text-white font-bold text-xs">
+                <div 
+                  className="score-gradient"
+                  style={{
+                    padding: '6px 10px',
+                    borderRadius: '14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <Leaf style={{ width: '12px', height: '12px', color: '#FFFFFF' }} />
+                  <span className="font-sans font-bold" style={{ fontSize: '13px', color: '#FFFFFF' }}>
                     {poi.quietScore}
                   </span>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Empty State Message */}
-      <div className="bg-[rgb(139 92 246)]/10 p-6 rounded-2xl border border-[rgb(139 92 246)]/20 text-center">
-        <MapPin className="w-12 h-12 mx-auto mb-3 text-[rgb(139 92 246)]" />
-        <p className="text-sm text-muted-foreground">
-          Attiva la geolocalizzazione per scoprire i luoghi quiet più vicini a te
-        </p>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
