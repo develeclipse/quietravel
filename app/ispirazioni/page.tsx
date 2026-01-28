@@ -1,21 +1,36 @@
 import { Sparkles, Leaf, ChevronDown, MapPin, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import prisma from "@/lib/prisma";
 import { SearchBar } from "@/components/search-bar";
 
-export default async function IspirazioniPage() {
-  const destinazioni = await prisma.destination.findMany({
+// Force dynamic rendering to avoid prerendering errors
+export const dynamic = 'force-dynamic';
+
+async function getDestinations() {
+  // This will work at runtime, not during build
+  const { prisma } = await import("@/lib/prisma");
+  return await prisma.destination.findMany({
     orderBy: {
       quietScore: "desc",
     },
-    take: 10,
+    take: 100,
     include: {
       _count: {
         select: { pois: true },
       },
     },
   });
+}
+
+export default async function IspirazioniPage() {
+  let destinazioni: any[] = [];
+  
+  try {
+    destinazioni = await getDestinations();
+  } catch (e) {
+    console.error("Error fetching destinations:", e);
+    // Return empty array on error
+  }
 
   // Mock "trending" for demo (first 2)
   const trendingIds = destinazioni.slice(0, 2).map((d) => d.id);

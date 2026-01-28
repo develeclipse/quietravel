@@ -2,8 +2,10 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Heart, Building, MapPin, TrendingUp, Trophy, Target, Settings, Sliders } from "lucide-react";
-import prisma from "@/lib/prisma";
 import Link from "next/link";
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 export default async function ProfiloPage() {
   const session = await getServerSession(authOptions);
@@ -12,17 +14,24 @@ export default async function ProfiloPage() {
     redirect("/auth/signin?callbackUrl=/profilo");
   }
 
-  // Fetch user stats
-  const stats = await prisma.userStats.findUnique({
-    where: { userId: session.user.id },
-  });
-
-  const savedDestinations = await prisma.savedDestination.count({
-    where: { userId: session.user.id },
-  });
-
-  const savedPOIs = await prisma.savedPOI.count({
-    where: { userId: session.user.id },
+  let stats: any = null;
+  let savedDestinations = 0;
+  let savedPOIs = 0;
+  
+  try {
+    const { prisma } = await import("@/lib/prisma");
+    stats = await prisma.userStats.findUnique({
+      where: { userId: session.user.id },
+    });
+    savedDestinations = await prisma.savedDestination.count({
+      where: { userId: session.user.id },
+    });
+    savedPOIs = await prisma.savedPOI.count({
+      where: { userId: session.user.id },
+    });
+  } catch (e) {
+    console.error("Error fetching user data:", e);
+  }
   });
 
   const savedTours = await prisma.savedTour.count({
