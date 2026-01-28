@@ -32,21 +32,27 @@ export default async function ProfiloPage() {
   } catch (e) {
     console.error("Error fetching user data:", e);
   }
-  });
 
-  const savedTours = await prisma.savedTour.count({
-    where: { userId: session.user.id },
-  });
+  let savedTours = 0;
+  let achievements: any[] = [];
+  let userAchievements: any[] = [];
 
-  // Achievements progress
-  const achievements = await prisma.achievement.findMany();
-  const userAchievements = await prisma.userAchievement.findMany({
-    where: { userId: session.user.id },
-    include: { achievement: true },
-  });
+  try {
+    const { prisma } = await import("@/lib/prisma");
+    savedTours = await prisma.savedTour.count({
+      where: { userId: session.user.id },
+    });
+    achievements = await prisma.achievement.findMany();
+    userAchievements = await prisma.userAchievement.findMany({
+      where: { userId: session.user.id },
+      include: { achievement: true },
+    });
+  } catch (e) {
+    console.error("Error fetching achievements:", e);
+  }
 
-  const firstSaveAchievement = achievements.find((a) => a.slug === "first-save");
-  const quietExplorerAchievement = achievements.find((a) => a.slug === "quiet-explorer");
+  const firstSaveAchievement = achievements.find((a: any) => a.slug === "first-save");
+  const quietExplorerAchievement = achievements.find((a: any) => a.slug === "quiet-explorer");
 
   const level = stats?.level || "Curioso Urbano";
   const avgQuietScore = stats?.averageQuietScore || 0;
