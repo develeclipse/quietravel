@@ -13,11 +13,6 @@ if (!globalForPrisma.pool) {
   globalForPrisma.pool = new Pool({
     connectionString: process.env.DATABASE_URL!,
   });
-
-  // Set search_path to quiettravel schema
-  globalForPrisma.pool.on("connect", (client) => {
-    client.query("SET search_path TO quiettravel");
-  });
 }
 
 const adapter = new PrismaPg(globalForPrisma.pool);
