@@ -1,177 +1,205 @@
-import { MapPin, Navigation, Coffee, Mountain, Church, Leaf } from "lucide-react";
+"use client";
 
-const pois = [
-  {
-    id: 1,
-    nome: "Giardino delle Rose",
-    tipo: "Natura",
-    distanza: "0.8 km",
-    quietScore: 92,
-    icon: Mountain,
-    color: "#5FB894"
-  },
-  {
-    id: 2,
-    nome: "Caffè del Teatro",
-    tipo: "Food",
-    distanza: "0.3 km",
-    quietScore: 78,
-    icon: Coffee,
-    color: "#E8A855"
-  },
-  {
-    id: 3,
-    nome: "Chiesa di San Michele",
-    tipo: "Cultura",
-    distanza: "1.2 km",
-    quietScore: 88,
-    icon: Church,
-    color: "#7C5FBA"
-  },
+import { useState, useEffect } from "react";
+import { Navigation, MapPin, Filter } from "lucide-react";
+
+interface POI {
+  id: string;
+  name: string;
+  type: string;
+  quietScore: number;
+  lat: number;
+  lng: number;
+  color: string;
+}
+
+const mockPOIs: POI[] = [
+  { id: "1", name: "Giardino delle Rose", type: "Natura", quietScore: 92, lat: 43.723, lng: 11.203, color: "#5FB894" },
+  { id: "2", name: "Caffè del Teatro", type: "Food", quietScore: 78, lat: 43.769, lng: 11.255, color: "#E8A855" },
+  { id: "3", name: "Chiesa di San Michele", type: "Cultura", quietScore: 88, lat: 43.718, lng: 11.229, color: "#7C5FBA" },
+  { id: "4", name: "Parco della Mansuè", type: "Natura", quietScore: 85, lat: 43.731, lng: 11.198, color: "#5FB894" },
+  { id: "5", name: "Osteria del Cacio", type: "Food", quietScore: 82, lat: 43.768, lng: 11.252, color: "#E8A855" },
 ];
 
 export default function VicinoPage() {
+  const [userLocation, setUserLocation] = useState<string>("43.7696,11.2558");
+  const [pois] = useState(mockPOIs);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation(`${latitude},${longitude}`);
+        },
+        () => {
+          setUserLocation("43.7696,11.2558");
+        }
+      );
+    } else {
+      setUserLocation("43.7696,11.2558");
+    }
+  };
+
+  const filteredPOIs = selectedType
+    ? pois.filter((p) => p.type === selectedType)
+    : pois;
+
   return (
     <div className="min-h-screen px-6 pt-4 pb-24">
+      {/* Header */}
       <div className="mb-4">
-        <h1 className="font-serif font-bold mb-1" style={{ fontSize: '28px', color: '#1A1A1A' }}>
+        <h1 className="font-serif font-bold mb-1" style={{ fontSize: "28px", color: "#1A1A1A" }}>
           Vicino a te
         </h1>
-        <p className="font-sans" style={{ fontSize: '14px', color: '#6B6B6B' }}>
+        <p className="font-sans" style={{ fontSize: "14px", color: "#6B6B6B" }}>
           Scopri luoghi quiet nella tua zona
         </p>
       </div>
 
-      {/* Mappa Placeholder */}
-      <div 
-        style={{
-          width: '100%',
-          height: '280px',
-          background: 'linear-gradient(135deg, #E8F5F0 0%, #E0F0FA 100%)',
-          borderRadius: '24px',
-          border: '1px solid #E5E5E0',
-          marginBottom: '16px',
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <MapPin style={{ width: '48px', height: '48px', color: '#7C5FBA', margin: '0 auto 12px' }} />
-          <p className="font-sans font-medium" style={{ fontSize: '14px', color: '#6B6B6B' }}>
-            Mappa interattiva
-          </p>
-        </div>
-
-        {/* Pin centrale */}
-        <div 
-          style={{
-            position: 'absolute',
-            top: '35%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '32px',
-            height: '32px',
-            backgroundColor: '#7C5FBA',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(124, 95, 186, 0.3)'
-          }}
-        >
-          <Navigation style={{ width: '18px', height: '18px', color: '#FFFFFF' }} />
-        </div>
-      </div>
-
       {/* Location Button */}
-      <button 
-        className="card-shadow w-full font-sans font-medium flex items-center justify-center gap-2"
+      <button
+        onClick={getLocation}
+        className="card-shadow w-full font-sans font-medium flex items-center justify-center gap-2 mb-4"
         style={{
-          height: '48px',
-          backgroundColor: '#FFFFFF',
-          border: '1px solid #E5E5E0',
-          borderRadius: '24px',
-          marginBottom: '24px',
-          fontSize: '14px',
-          color: '#1A1A1A'
+          height: "48px",
+          backgroundColor: "#FFFFFF",
+          border: "1px solid #E5E5E0",
+          borderRadius: "24px",
+          fontSize: "14px",
+          color: "#1A1A1A",
         }}
       >
-        <Navigation style={{ width: '18px', height: '18px', color: '#7C5FBA' }} />
-        Usa la mia posizione
+        <Navigation style={{ width: "18px", height: "18px", color: "#7C5FBA" }} />
+        {userLocation !== "43.7696,11.2558" ? "Posizione aggiornata" : "Usa la mia posizione"}
       </button>
+
+      {/* Filters Toggle */}
+      <button
+        onClick={() => setShowFilters(!showFilters)}
+        className="w-full font-sans font-medium flex items-center justify-center gap-2 mb-4"
+        style={{
+          height: "40px",
+          backgroundColor: showFilters ? "#7C5FBA" : "#F5F5F0",
+          borderRadius: "20px",
+          fontSize: "13px",
+          color: showFilters ? "#FFFFFF" : "#1A1A1A",
+        }}
+      >
+        <Filter style={{ width: "16px", height: "16px" }} />
+        Filtra per tipo
+      </button>
+
+      {/* Filters */}
+      {showFilters && (
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {["Natura", "Food", "Cultura"].map((type) => (
+            <button
+              key={type}
+              onClick={() => setSelectedType(selectedType === type ? null : type)}
+              style={{
+                padding: "8px 16px",
+                backgroundColor: selectedType === type ? "#7C5FBA" : "#FFFFFF",
+                border: `1px solid ${selectedType === type ? "#7C5FBA" : "#E5E5E0"}`,
+                borderRadius: "20px",
+                fontSize: "13px",
+                color: selectedType === type ? "#FFFFFF" : "#1A1A1A",
+              }}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Map iframe */}
+      <div
+        className="mb-4 overflow-hidden"
+        style={{
+          height: "280px",
+          borderRadius: "24px",
+          border: "1px solid #E5E5E0",
+        }}
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
+          src={`https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(userLocation.split(",")[1]) - 0.02},${parseFloat(userLocation.split(",")[0]) - 0.02},${parseFloat(userLocation.split(",")[1]) + 0.02},${parseFloat(userLocation.split(",")[0]) + 0.02}&layer=mapnik&marker=${userLocation}`}
+        />
+      </div>
 
       {/* POI List */}
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <h2 className="font-sans font-semibold" style={{ fontSize: '18px', color: '#1A1A1A' }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <h2 className="font-sans font-semibold" style={{ fontSize: "18px", color: "#1A1A1A" }}>
             Luoghi nelle vicinanze
           </h2>
-          <button className="font-sans font-medium" style={{ fontSize: '13px', color: '#7C5FBA' }}>
-            Filtra
-          </button>
+          <span className="font-sans" style={{ fontSize: "12px", color: "#6B6B6B" }}>
+            {filteredPOIs.length} risultati
+          </span>
         </div>
 
         <div className="space-y-3">
-          {pois.map((poi) => {
-            const Icon = poi.icon;
-            return (
+          {filteredPOIs.map((poi) => (
+            <div
+              key={poi.id}
+              className="card-shadow cursor-pointer"
+              style={{
+                backgroundColor: "#FFFFFF",
+                borderRadius: "20px",
+                border: "1px solid #F0F0EB",
+                padding: "16px",
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+              }}
+            >
               <div
-                key={poi.id}
-                className="card-shadow cursor-pointer"
                 style={{
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '20px',
-                  border: '1px solid #F0F0EB',
-                  padding: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '16px'
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "16px",
+                  backgroundColor: `${poi.color}15`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
                 }}
               >
-                <div 
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '16px',
-                    backgroundColor: `${poi.color}15`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0
-                  }}
-                >
-                  <Icon style={{ width: '24px', height: '24px', color: poi.color }} />
-                </div>
+                <MapPin style={{ width: "24px", height: "24px", color: poi.color }} />
+              </div>
 
-                <div style={{ flex: 1 }}>
-                  <h3 className="font-sans font-semibold" style={{ fontSize: '16px', color: '#1A1A1A', marginBottom: '2px' }}>
-                    {poi.nome}
-                  </h3>
-                  <div className="font-sans" style={{ fontSize: '13px', color: '#6B6B6B' }}>
-                    {poi.tipo} • {poi.distanza}
-                  </div>
-                </div>
-
-                <div 
-                  className="score-gradient"
-                  style={{
-                    padding: '6px 10px',
-                    borderRadius: '14px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}
-                >
-                  <Leaf style={{ width: '12px', height: '12px', color: '#FFFFFF' }} />
-                  <span className="font-sans font-bold" style={{ fontSize: '13px', color: '#FFFFFF' }}>
-                    {poi.quietScore}
-                  </span>
+              <div style={{ flex: 1 }}>
+                <h3 className="font-sans font-semibold" style={{ fontSize: "16px", color: "#1A1A1A", marginBottom: "2px" }}>
+                  {poi.name}
+                </h3>
+                <div className="font-sans" style={{ fontSize: "13px", color: "#6B6B6B" }}>
+                  {poi.type}
                 </div>
               </div>
-            );
-          })}
+
+              <div
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: "14px",
+                  backgroundColor: `${poi.color}20`,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                }}
+              >
+                <span style={{ fontSize: "12px", fontWeight: 600, color: poi.color }}>
+                  Q{poi.quietScore}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
