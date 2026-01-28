@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     });
 
     // Score and rank destinations based on preferences
-    const scored = destinations.map((d) => {
+    const scored = destinations.map((d: any) => {
       let score = d.quietScore;
 
       // Bonus for POI matches
