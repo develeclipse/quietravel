@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     scored.sort((a: any, b: any) => b.matchScore - a.matchScore);
 
     // Generate tour suggestions
-    const suggestions = scored.slice(0, 5).map((d) => ({
+    const suggestions = scored.slice(0, 5).map((d: any) => ({
       destination: {
         id: d.id,
         name: d.name,
