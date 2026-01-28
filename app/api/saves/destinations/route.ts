@@ -21,7 +21,7 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(saved.map((s) => s.destination));
+    return NextResponse.json(saved.map((s: any) => s.destination));
   } catch (error) {
     console.error("Error fetching saved destinations:", error);
     return NextResponse.json({ error: "Failed to fetch saved destinations" }, { status: 500 });
