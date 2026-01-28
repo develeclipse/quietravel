@@ -1,51 +1,95 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { Navigation, MapPin, Filter } from "lucide-react";
+
+const MapView = dynamic(() => import("@/components/map-view"), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        height: "280px",
+        borderRadius: "24px",
+        background: "linear-gradient(135deg, #E8F5F0 0%, #E0F0FA 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div style={{ textAlign: "center" }}>
+        <MapPin style={{ width: "48px", height: "48px", color: "#7C5FBA", margin: "0 auto 12px" }} />
+        <p className="font-sans" style={{ fontSize: "14px", color: "#6B6B6B" }}>
+          Caricamento mappa...
+        </p>
+      </div>
+    </div>
+  ),
+});
 
 interface POI {
   id: string;
   name: string;
+  slug: string;
   type: string;
   quietScore: number;
-  lat: number;
-  lng: number;
+  lat: number | null;
+  lng: number | null;
   color: string;
+  region: string;
 }
 
-const mockPOIs: POI[] = [
-  { id: "1", name: "Giardino delle Rose", type: "Natura", quietScore: 92, lat: 43.723, lng: 11.203, color: "#5FB894" },
-  { id: "2", name: "Caffè del Teatro", type: "Food", quietScore: 78, lat: 43.769, lng: 11.255, color: "#E8A855" },
-  { id: "3", name: "Chiesa di San Michele", type: "Cultura", quietScore: 88, lat: 43.718, lng: 11.229, color: "#7C5FBA" },
-  { id: "4", name: "Parco della Mansuè", type: "Natura", quietScore: 85, lat: 43.731, lng: 11.198, color: "#5FB894" },
-  { id: "5", name: "Osteria del Cacio", type: "Food", quietScore: 82, lat: 43.768, lng: 11.252, color: "#E8A855" },
-];
-
 export default function VicinoPage() {
-  const [userLocation, setUserLocation] = useState<string>("43.7696,11.2558");
-  const [pois] = useState(mockPOIs);
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [destinations, setDestinations] = useState<POI[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    // Load destinations with coordinates
+    fetch("/api/destinations?hasCoordinates=true&limit=50")
+      .then((res) => res.json())
+      .then((data) => {
+        const pois: POI[] = data.map((d: any) => ({
+          id: d.id,
+          name: d.name,
+          slug: d.slug,
+          type: "Destinazione",
+          quietScore: d.quietScore,
+          lat: d.lat,
+          lng: d.lng,
+          color: d.quietScore >= 90 ? "#5FB894" : d.quietScore >= 70 ? "#E8A855" : "#7C5FBA",
+          region: d.region,
+        }));
+        setDestinations(pois);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation(`${latitude},${longitude}`);
+          setUserLocation([position.coords.latitude, position.coords.longitude]);
         },
         () => {
-          setUserLocation("43.7696,11.2558");
+          setUserLocation([43.7696, 11.2558]); // Firenze default
         }
       );
     } else {
-      setUserLocation("43.7696,11.2558");
+      setUserLocation([43.7696, 11.2558]);
     }
   };
 
-  const filteredPOIs = selectedType
-    ? pois.filter((p) => p.type === selectedType)
-    : pois;
+  const filteredPOIs = destinations.filter((p) => {
+    if (!p.lat || !p.lng) return false;
+    if (selectedType && p.type !== selectedType) return false;
+    return true;
+  });
 
   return (
     <div className="min-h-screen px-6 pt-4 pb-24">
@@ -55,7 +99,7 @@ export default function VicinoPage() {
           Vicino a te
         </h1>
         <p className="font-sans" style={{ fontSize: "14px", color: "#6B6B6B" }}>
-          Scopri luoghi quiet nella tua zona
+          Scopri luoghi quiet nelle vicinanze
         </p>
       </div>
 
@@ -73,7 +117,7 @@ export default function VicinoPage() {
         }}
       >
         <Navigation style={{ width: "18px", height: "18px", color: "#7C5FBA" }} />
-        {userLocation !== "43.7696,11.2558" ? "Posizione aggiornata" : "Usa la mia posizione"}
+        {userLocation ? "Posizione aggiornata ✓" : "Usa la mia posizione"}
       </button>
 
       {/* Filters Toggle */}
@@ -95,7 +139,7 @@ export default function VicinoPage() {
       {/* Filters */}
       {showFilters && (
         <div className="flex gap-2 mb-4 flex-wrap">
-          {["Natura", "Food", "Cultura"].map((type) => (
+          {["Destinazione", "Natura", "Food", "Cultura"].map((type) => (
             <button
               key={type}
               onClick={() => setSelectedType(selectedType === type ? null : type)}
@@ -114,7 +158,7 @@ export default function VicinoPage() {
         </div>
       )}
 
-      {/* Map iframe */}
+      {/* Map */}
       <div
         className="mb-4 overflow-hidden"
         style={{
@@ -123,15 +167,27 @@ export default function VicinoPage() {
           border: "1px solid #E5E5E0",
         }}
       >
-        <iframe
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          loading="lazy"
-          allowFullScreen
-          referrerPolicy="no-referrer-when-downgrade"
-          src={`https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(userLocation.split(",")[1]) - 0.02},${parseFloat(userLocation.split(",")[0]) - 0.02},${parseFloat(userLocation.split(",")[1]) + 0.02},${parseFloat(userLocation.split(",")[0]) + 0.02}&layer=mapnik&marker=${userLocation}`}
-        />
+        {loading ? (
+          <div
+            style={{
+              height: "280px",
+              borderRadius: "24px",
+              background: "linear-gradient(135deg, #E8F5F0 0%, #E0F0FA 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ textAlign: "center" }}>
+              <MapPin style={{ width: "48px", height: "48px", color: "#7C5FBA", margin: "0 auto 12px" }} />
+              <p className="font-sans" style={{ fontSize: "14px", color: "#6B6B6B" }}>
+                Caricamento...
+              </p>
+            </div>
+          </div>
+        ) : (
+          <MapView userLocation={userLocation} pois={filteredPOIs} selectedType={selectedType} />
+        )}
       </div>
 
       {/* POI List */}
@@ -146,10 +202,11 @@ export default function VicinoPage() {
         </div>
 
         <div className="space-y-3">
-          {filteredPOIs.map((poi) => (
-            <div
+          {filteredPOIs.slice(0, 10).map((poi) => (
+            <a
               key={poi.id}
-              className="card-shadow cursor-pointer"
+              href={`/destinazioni/${poi.slug}`}
+              className="card-shadow block"
               style={{
                 backgroundColor: "#FFFFFF",
                 borderRadius: "20px",
@@ -180,7 +237,7 @@ export default function VicinoPage() {
                   {poi.name}
                 </h3>
                 <div className="font-sans" style={{ fontSize: "13px", color: "#6B6B6B" }}>
-                  {poi.type}
+                  {poi.region} • {poi.type}
                 </div>
               </div>
 
@@ -198,8 +255,23 @@ export default function VicinoPage() {
                   Q{poi.quietScore}
                 </span>
               </div>
-            </div>
+            </a>
           ))}
+
+          {filteredPOIs.length === 0 && !loading && (
+            <div
+              style={{
+                textAlign: "center",
+                padding: "40px 20px",
+                color: "#6B6B6B",
+              }}
+            >
+              <MapPin style={{ width: "48px", height: "48px", margin: "0 auto 12px", opacity: 0.5 }} />
+              <p className="font-sans" style={{ fontSize: "14px" }}>
+                Nessun luogo trovato con queste coordinate
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -7,16 +7,23 @@ export async function GET(request: Request) {
     const region = searchParams.get("region");
     const minQuietScore = searchParams.get("minQuietScore");
     const featured = searchParams.get("featured");
+    const hasCoordinates = searchParams.get("hasCoordinates");
+    const limit = searchParams.get("limit");
 
     const destinations = await prisma.destination.findMany({
       where: {
         ...(region && { region }),
         ...(minQuietScore && { quietScore: { gte: parseInt(minQuietScore) } }),
         ...(featured === "true" && { featured: true }),
+        ...(hasCoordinates === "true" && {
+          lat: { not: null },
+          lng: { not: null },
+        }),
       },
       orderBy: {
         quietScore: "desc",
       },
+      take: limit ? parseInt(limit) : undefined,
       include: {
         _count: {
           select: {
