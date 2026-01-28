@@ -78,7 +78,7 @@ export async function POST(request: Request) {
       success: true,
       suggestions,
       filters: {
-        regions: regions.map((r) => r.region).filter(Boolean),
+        regions: regions.map((r: any) => r.region).filter(Boolean),
         moods: ["Relax", "Avventura", "Cultura", "Natura", "Food"],
         durations: ["1 giorno", "2-3 giorni", "4-7 giorni", "Settimana"],
         activities: ["Natura", "Cultura", "Food", "Spiaggia", "Montagna", "Arte"],
