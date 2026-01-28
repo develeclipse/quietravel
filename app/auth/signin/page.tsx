@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Sparkles } from "lucide-react";
@@ -8,9 +8,14 @@ import { Sparkles } from "lucide-react";
 export default function SignInPage() {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get("callbackUrl") || "/";
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +50,11 @@ export default function SignInPage() {
         background: "linear-gradient(135deg, #E8F5F0 0%, #E0F0FA 100%)",
       }}
     >
+      {!mounted ? (
+        <div style={{ width: "64px", height: "64px", borderRadius: "20px", background: "linear-gradient(135deg, #7C5FBA 0%, #9B7FD9 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Sparkles style={{ width: "32px", height: "32px", color: "#FFFFFF" }} />
+        </div>
+      ) : (
       <div
         className="w-full max-w-md"
         style={{
@@ -141,6 +151,7 @@ export default function SignInPage() {
           esperienza quiet
         </p>
       </div>
+      )}
     </div>
   );
 }
