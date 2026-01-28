@@ -2,35 +2,37 @@ import { Sparkles, Leaf, ChevronDown, MapPin, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { SearchBar } from "@/components/search-bar";
+import fs from "fs";
+import path from "path";
 
-// Force dynamic rendering to avoid prerendering errors
+// Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
 async function getDestinations() {
-  // This will work at runtime, not during build
-  const { prisma } = await import("@/lib/prisma");
-  return await prisma.destination.findMany({
-    orderBy: {
-      quietScore: "desc",
-    },
-    take: 100,
-    include: {
-      _count: {
-        select: { pois: true },
-      },
-    },
-  });
+  try {
+    const { prisma } = await import("@/lib/prisma");
+    return await prisma.destination.findMany({
+      orderBy: { quietScore: "desc" },
+      take: 100,
+      include: { _count: { select: { pois: true } } },
+    });
+  } catch (e) {
+    // Fallback to static JSON
+    try {
+      const filePath = path.join(process.cwd(), "public", "destinations.json");
+      if (fs.existsSync(filePath)) {
+        const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+        return data.slice(0, 100);
+      }
+    } catch (e2) {
+      console.error("Error loading static destinations:", e2);
+    }
+    return [];
+  }
 }
 
 export default async function IspirazioniPage() {
-  let destinazioni: any[] = [];
-  
-  try {
-    destinazioni = await getDestinations();
-  } catch (e) {
-    console.error("Error fetching destinations:", e);
-    // Return empty array on error
-  }
+  let destinazioni = await getDestinations();
 
   // Mock "trending" for demo (first 2)
   const trendingIds = destinazioni.slice(0, 2).map((d) => d.id);
@@ -50,39 +52,6 @@ export default async function IspirazioniPage() {
       {/* Search Bar */}
       <div className="mb-4">
         <SearchBar placeholder="Cerca collezioni, regioni, città..." />
-      </div>
-
-      {/* Filtri */}
-      <div className="flex gap-2 mb-6">
-        <button
-          className="font-sans font-medium flex items-center gap-2"
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#FFFFFF",
-            border: "1px solid #E5E5E0",
-            borderRadius: "20px",
-            fontSize: "13px",
-            color: "#1A1A1A",
-          }}
-        >
-          Quiet Score & Date
-          <span
-            style={{
-              width: "20px",
-              height: "20px",
-              borderRadius: "50%",
-              backgroundColor: "#7C5FBA",
-              color: "#FFFFFF",
-              fontSize: "11px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: "600",
-            }}
-          >
-            1
-          </span>
-        </button>
       </div>
 
       {/* Featured Card - Umbria */}
@@ -170,13 +139,13 @@ export default async function IspirazioniPage() {
           }}
         >
           <Sparkles style={{ width: "18px", height: "18px" }} />
-          Scopri con l'AI
+          Scopri con l&apos;AI
         </button>
       </div>
 
-      {/* Destination Cards - HORIZONTAL LAYOUT (image left, text right) */}
+      {/* Destination Cards - HORIZONTAL LAYOUT */}
       <div className="space-y-3">
-        {destinazioni.map((dest, index) => (
+        {destinazioni.map((dest: any, index: number) => (
           <Link key={dest.id} href={`/destinazioni/${dest.slug}`}>
             <div
               className="card-shadow cursor-pointer flex gap-4"
