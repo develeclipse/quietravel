@@ -251,6 +251,18 @@ export default function PianificaPage() {
             <option value="BASILICATA">Basilicata</option>
             <option value="MARCHE">Marche</option>
             <option value="UMBRIA">Umbria</option>
+            <option value="PIEMONTE">Piemonte</option>
+            <option value="LOMBARDIA">Lombardia</option>
+            <option value="VENETO">Veneto</option>
+            <option value="EMILIA-ROMAGNA">Emilia-Romagna</option>
+            <option value="CALABRIA">Calabria</option>
+            <option value="ABRUZZO">Abruzzo</option>
+            <option value="MOLISE">Molise</option>
+            <option value="LIGURIA">Liguria</option>
+            <option value="FRIULI-VENEZIA GIULIA">Friuli-Venezia Giulia</option>
+            <option value="TRENTO">Trento</option>
+            <option value="BOLZANO - BOZEN">Bolzano - Bozen</option>
+            <option value="VALLE D'AOSTA">Valle d'Aosta</option>
           </select>
 
           <button
