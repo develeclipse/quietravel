@@ -34,7 +34,7 @@ export function SearchBar({ placeholder = "Cerca luoghi quiet..." }: { placehold
   const [results, setResults] = useState<SearchResults | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const searchRef = useRef<HTMLDivElement>(null);
 
   // Close results when clicking outside
