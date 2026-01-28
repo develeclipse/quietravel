@@ -122,7 +122,7 @@ async function updateUserStats(userId: string) {
 
   const avgQuietScore =
     savedDestinations.length > 0
-      ? savedDestinations.reduce((sum, s) => sum + s.destination.quietScore, 0) /
+      ? savedDestinations.reduce((sum: number, s: any) => sum + s.destination.quietScore, 0) /
         savedDestinations.length
       : 0;
 
