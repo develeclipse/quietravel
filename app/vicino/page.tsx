@@ -47,21 +47,23 @@ export default function VicinoPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    // Load destinations with coordinates
-    fetch("/api/destinations?hasCoordinates=true&limit=50")
+    // Load destinations from static JSON
+    fetch("/destinations.json")
       .then((res) => res.json())
       .then((data) => {
-        const pois: POI[] = data.map((d: any) => ({
-          id: d.id,
-          name: d.name,
-          slug: d.slug,
-          type: "Destinazione",
-          quietScore: d.quietScore,
-          lat: d.lat,
-          lng: d.lng,
-          color: d.quietScore >= 90 ? "#5FB894" : d.quietScore >= 70 ? "#E8A855" : "#7C5FBA",
-          region: d.region,
-        }));
+        const pois: POI[] = data
+          .filter((d: any) => d.lat && d.lng)
+          .map((d: any) => ({
+            id: d.id,
+            name: d.name,
+            slug: d.slug,
+            type: "Destinazione",
+            quietScore: d.quietScore,
+            lat: d.lat,
+            lng: d.lng,
+            color: d.quietScore >= 90 ? "#5FB894" : d.quietScore >= 70 ? "#E8A855" : "#7C5FBA",
+            region: d.region,
+          }));
         setDestinations(pois);
         setLoading(false);
       })
@@ -77,7 +79,7 @@ export default function VicinoPage() {
           setUserLocation([position.coords.latitude, position.coords.longitude]);
         },
         () => {
-          setUserLocation([43.7696, 11.2558]); // Firenze default
+          setUserLocation([43.7696, 11.2558]);
         }
       );
     } else {
@@ -86,7 +88,6 @@ export default function VicinoPage() {
   };
 
   const filteredPOIs = destinations.filter((p) => {
-    if (!p.lat || !p.lng) return false;
     if (selectedType && p.type !== selectedType) return false;
     return true;
   });
@@ -268,7 +269,7 @@ export default function VicinoPage() {
             >
               <MapPin style={{ width: "48px", height: "48px", margin: "0 auto 12px", opacity: 0.5 }} />
               <p className="font-sans" style={{ fontSize: "14px" }}>
-                Nessun luogo trovato con queste coordinate
+                Nessun luogo trovato con coordinate
               </p>
             </div>
           )}
