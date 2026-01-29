@@ -133,7 +133,7 @@ export default function HomePage() {
         className="overflow-hidden"
         style={{
           borderRadius: "22px",
-          backgroundColor: "#F9F5FA",
+          backgroundColor: "#EFEDF0",
           boxShadow: "0 1px 8px rgba(0, 0, 0, 0.04)",
         }}
       >
