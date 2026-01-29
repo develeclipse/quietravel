@@ -111,21 +111,22 @@ export default function HomePage() {
       <div 
         className="overflow-hidden"
         style={{
-          borderRadius: "24px",
+          borderRadius: "28px",
           backgroundColor: "#F5F3FF", // Very light purple
+          boxShadow: "0 4px 24px rgba(124, 95, 186, 0.12)",
         }}
       >
         {/* Section 1: Ispirati */}
         <Link href="/ispirazioni">
           <div 
-            className="flex items-center justify-between p-5 cursor-pointer"
+            className="flex items-center justify-between p-6 cursor-pointer"
             style={{ borderBottom: "1px solid rgba(124, 95, 186, 0.1)" }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
               <div 
                 style={{
-                  width: "44px",
-                  height: "44px",
+                  width: "52px",
+                  height: "52px",
                   borderRadius: "50%",
                   backgroundColor: "rgba(124, 95, 186, 0.15)",
                   display: "flex",
@@ -133,38 +134,38 @@ export default function HomePage() {
                   justifyContent: "center"
                 }}
               >
-                <Sparkles style={{ width: "22px", height: "22px", color: "#7C5FBA" }} />
+                <Sparkles style={{ width: "26px", height: "26px", color: "#7C5FBA" }} />
               </div>
               <div>
                 <h3 
                   className="font-sans font-semibold"
-                  style={{ fontSize: "17px", color: "#1A1A1A" }}
+                  style={{ fontSize: "18px", color: "#1A1A1A" }}
                 >
                   Ispirati
                 </h3>
                 <p 
                   className="font-sans"
-                  style={{ fontSize: "13px", color: "#6B6B6B" }}
+                  style={{ fontSize: "14px", color: "#6B6B6B" }}
                 >
                   Collezioni, storie e destinazioni
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "18px", height: "18px", color: "#9B9B9B" }} />
+            <ChevronRight style={{ width: "20px", height: "20px", color: "#9B9B9B" }} />
           </div>
         </Link>
 
         {/* Section 2: Pianifica */}
         <Link href="/pianifica">
           <div 
-            className="flex items-center justify-between p-5 cursor-pointer"
+            className="flex items-center justify-between p-6 cursor-pointer"
             style={{ borderBottom: "1px solid rgba(124, 95, 186, 0.1)" }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
               <div 
                 style={{
-                  width: "44px",
-                  height: "44px",
+                  width: "52px",
+                  height: "52px",
                   borderRadius: "50%",
                   backgroundColor: "rgba(95, 184, 148, 0.15)",
                   display: "flex",
@@ -172,35 +173,35 @@ export default function HomePage() {
                   justifyContent: "center"
                 }}
               >
-                <Calendar style={{ width: "22px", height: "22px", color: "#5FB894" }} />
+                <Calendar style={{ width: "26px", height: "26px", color: "#5FB894" }} />
               </div>
               <div>
                 <h3 
                   className="font-sans font-semibold"
-                  style={{ fontSize: "17px", color: "#1A1A1A" }}
+                  style={{ fontSize: "18px", color: "#1A1A1A" }}
                 >
                   Pianifica
                 </h3>
                 <p 
                   className="font-sans"
-                  style={{ fontSize: "13px", color: "#6B6B6B" }}
+                  style={{ fontSize: "14px", color: "#6B6B6B" }}
                 >
                   Itinerari e pacchetti tematici
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "18px", height: "18px", color: "#9B9B9B" }} />
+            <ChevronRight style={{ width: "20px", height: "20px", color: "#9B9B9B" }} />
           </div>
         </Link>
 
         {/* Section 3: Vicino a me */}
         <Link href="/vicino">
-          <div className="flex items-center justify-between p-5 cursor-pointer">
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div className="flex items-center justify-between p-6 cursor-pointer">
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
               <div 
                 style={{
-                  width: "44px",
-                  height: "44px",
+                  width: "52px",
+                  height: "52px",
                   borderRadius: "50%",
                   backgroundColor: "rgba(232, 168, 85, 0.15)",
                   display: "flex",
@@ -208,24 +209,24 @@ export default function HomePage() {
                   justifyContent: "center"
                 }}
               >
-                <MapPin style={{ width: "22px", height: "22px", color: "#E8A855" }} />
+                <MapPin style={{ width: "26px", height: "26px", color: "#E8A855" }} />
               </div>
               <div>
                 <h3 
                   className="font-sans font-semibold"
-                  style={{ fontSize: "17px", color: "#1A1A1A" }}
+                  style={{ fontSize: "18px", color: "#1A1A1A" }}
                 >
                   Vicino a me
                 </h3>
                 <p 
                   className="font-sans"
-                  style={{ fontSize: "13px", color: "#6B6B6B" }}
+                  style={{ fontSize: "14px", color: "#6B6B6B" }}
                 >
                   Posti segreti e alternative quiet
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "18px", height: "18px", color: "#9B9B9B" }} />
+            <ChevronRight style={{ width: "20px", height: "20px", color: "#9B9B9B" }} />
           </div>
         </Link>
       </div>
