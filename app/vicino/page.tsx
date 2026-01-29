@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { Navigation, MapPin, Filter } from "lucide-react";
 
@@ -33,10 +33,23 @@ interface POI {
   slug: string;
   type: string;
   quietScore: number;
-  lat: number | null;
-  lng: number | null;
+  lat: number;
+  lng: number;
   color: string;
   region: string;
+}
+
+// Calculate distance in km between two points
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 export default function VicinoPage() {
@@ -45,9 +58,9 @@ export default function VicinoPage() {
   const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [locationName, setLocationName] = useState<string>("");
 
   useEffect(() => {
-    // Load destinations from static JSON
     fetch("/destinations.json")
       .then((res) => res.json())
       .then((data) => {
@@ -76,21 +89,39 @@ export default function VicinoPage() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setUserLocation([position.coords.latitude, position.coords.longitude]);
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setUserLocation([lat, lng]);
+          setLocationName("La tua posizione");
         },
         () => {
-          setUserLocation([43.7696, 11.2558]);
+          // Default to center of Italy if denied
+          const defaultLoc: [number, number] = [41.9028, 12.4964]; // Roma
+          setUserLocation(defaultLoc);
+          setLocationName("Roma (default)");
         }
       );
     } else {
-      setUserLocation([43.7696, 11.2558]);
+      const defaultLoc: [number, number] = [41.9028, 12.4964];
+      setUserLocation(defaultLoc);
+      setLocationName("Roma (default)");
     }
   };
 
-  const filteredPOIs = destinations.filter((p) => {
-    if (selectedType && p.type !== selectedType) return false;
-    return true;
-  });
+  // Sort POIs by distance from user location
+  const sortedAndFilteredPOIs = useMemo(() => {
+    let filtered = selectedType ? destinations.filter((p) => p.type === selectedType) : destinations;
+
+    if (userLocation) {
+      filtered = filtered.map((poi) => ({
+        ...poi,
+        distance: calculateDistance(userLocation[0], userLocation[1], poi.lat, poi.lng),
+      }));
+      filtered.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+    }
+
+    return filtered;
+  }, [destinations, selectedType, userLocation]);
 
   return (
     <div className="min-h-screen px-6 pt-4 pb-24">
@@ -118,7 +149,7 @@ export default function VicinoPage() {
         }}
       >
         <Navigation style={{ width: "18px", height: "18px", color: "#7C5FBA" }} />
-        {userLocation ? "Posizione aggiornata ✓" : "Usa la mia posizione"}
+        {userLocation ? (locationName || "Posizione aggiornata ✓") : "Usa la mia posizione"}
       </button>
 
       {/* Filters Toggle */}
@@ -187,7 +218,7 @@ export default function VicinoPage() {
             </div>
           </div>
         ) : (
-          <MapView userLocation={userLocation} pois={filteredPOIs} selectedType={selectedType} />
+          <MapView userLocation={userLocation} pois={sortedAndFilteredPOIs} selectedType={selectedType} />
         )}
       </div>
 
@@ -195,15 +226,15 @@ export default function VicinoPage() {
       <div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
           <h2 className="font-sans font-semibold" style={{ fontSize: "18px", color: "#1A1A1A" }}>
-            Luoghi nelle vicinanze
+            {userLocation ? "Più vicini a te" : "Luoghi nelle vicinanze"}
           </h2>
           <span className="font-sans" style={{ fontSize: "12px", color: "#6B6B6B" }}>
-            {filteredPOIs.length} risultati
+            {sortedAndFilteredPOIs.length} risultati
           </span>
         </div>
 
         <div className="space-y-3">
-          {filteredPOIs.slice(0, 10).map((poi) => (
+          {sortedAndFilteredPOIs.slice(0, 10).map((poi) => (
             <a
               key={poi.id}
               href={`/destinazioni/${poi.slug}`}
@@ -242,24 +273,34 @@ export default function VicinoPage() {
                 </div>
               </div>
 
-              <div
-                style={{
-                  padding: "6px 10px",
-                  borderRadius: "14px",
-                  backgroundColor: `${poi.color}20`,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                }}
-              >
-                <span style={{ fontSize: "12px", fontWeight: 600, color: poi.color }}>
-                  Q{poi.quietScore}
-                </span>
+              <div style={{ textAlign: "right" }}>
+                <div
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "14px",
+                    backgroundColor: `${poi.color}20`,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    marginBottom: "4px",
+                  }}
+                >
+                  <span style={{ fontSize: "12px", fontWeight: 600, color: poi.color }}>
+                    Q{poi.quietScore}
+                  </span>
+                </div>
+                {poi.distance !== undefined && (
+                  <div className="font-sans" style={{ fontSize: "11px", color: "#6B6B6B" }}>
+                    {poi.distance < 1
+                      ? `${Math.round(poi.distance * 1000)}m`
+                      : `${poi.distance.toFixed(1)} km`}
+                  </div>
+                )}
               </div>
             </a>
           ))}
 
-          {filteredPOIs.length === 0 && !loading && (
+          {sortedAndFilteredPOIs.length === 0 && !loading && (
             <div
               style={{
                 textAlign: "center",
@@ -269,7 +310,7 @@ export default function VicinoPage() {
             >
               <MapPin style={{ width: "48px", height: "48px", margin: "0 auto 12px", opacity: 0.5 }} />
               <p className="font-sans" style={{ fontSize: "14px" }}>
-                Nessun luogo trovato con coordinate
+                Nessun luogo trovato
               </p>
             </div>
           )}

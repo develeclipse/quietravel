@@ -22,6 +22,7 @@ interface POI {
   lat: number;
   lng: number;
   color: string;
+  distance?: number;
 }
 
 function CenterMap({ center }: { center: [number, number] }) {
