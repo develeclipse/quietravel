@@ -37,6 +37,7 @@ interface POI {
   lng: number;
   color: string;
   region: string;
+  distance?: number;
 }
 
 // Calculate distance in km between two points
