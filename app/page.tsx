@@ -50,8 +50,21 @@ export default function HomePage() {
   return (
     <div className="min-h-screen px-6 pt-4 pb-24">
       {/* Badge Anti-Overtourism */}
-      <div className="flex items-center gap-2 mb-5">
-        <Sparkles className="w-3 h-3" style={{ color: '#E8A855' }} fill="#E8A855" />
+      <div className="flex items-center gap-2 mb-6">
+        <div 
+          style={{
+            width: "24px",
+            height: "24px",
+            borderRadius: "8px",
+            backgroundColor: "#FFFFFF",
+            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Sparkles style={{ width: "12px", height: "12px", color: "#E8A855" }} />
+        </div>
         <span 
           className="font-sans font-semibold tracking-widest"
           style={{ 
