@@ -120,16 +120,15 @@ export default function HomePage() {
         <Link href="/ispirazioni">
           <div 
             className="flex items-center justify-between px-4 py-3.5 cursor-pointer"
-            style={{ borderBottom: "1px solid #EDE9F0" }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
                 style={{
                   width: "40px",
                   height: "40px",
                   borderRadius: "12px",
                   backgroundColor: "#FFFFFF",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+                  boxShadow: "0 2px 8px rgba(124, 95, 186, 0.2)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
@@ -169,22 +168,22 @@ export default function HomePage() {
               </svg>
             </div>
           </div>
+          <div style={{ borderBottom: "1px solid #EDE9F0", marginLeft: "54px", marginRight: "4px" }} />
         </Link>
 
         {/* Section 2: Pianifica */}
         <Link href="/pianifica">
           <div 
             className="flex items-center justify-between px-4 py-3.5 cursor-pointer"
-            style={{ borderBottom: "1px solid #EDE9F0" }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
                 style={{
                   width: "40px",
                   height: "40px",
                   borderRadius: "12px",
                   backgroundColor: "#FFFFFF",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+                  boxShadow: "0 2px 8px rgba(95, 184, 148, 0.2)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
@@ -224,19 +223,20 @@ export default function HomePage() {
               </svg>
             </div>
           </div>
+          <div style={{ borderBottom: "1px solid #EDE9F0", marginLeft: "54px", marginRight: "4px" }} />
         </Link>
 
         {/* Section 3: Vicino a me */}
         <Link href="/vicino">
           <div className="flex items-center justify-between px-4 py-3.5 cursor-pointer">
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
                 style={{
                   width: "40px",
                   height: "40px",
                   borderRadius: "12px",
                   backgroundColor: "#FFFFFF",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+                  boxShadow: "0 2px 8px rgba(232, 168, 85, 0.2)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
