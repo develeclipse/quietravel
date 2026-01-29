@@ -140,7 +140,7 @@ export default function HomePage() {
         {/* Section 1: Ispirati */}
         <Link href="/ispirazioni">
           <div 
-            className="flex items-center justify-between px-4 py-6 cursor-pointer"
+            className="flex items-center justify-between px-4 py-8 cursor-pointer"
           >
             <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
@@ -195,7 +195,7 @@ export default function HomePage() {
         {/* Section 2: Pianifica */}
         <Link href="/pianifica">
           <div 
-            className="flex items-center justify-between px-4 py-6 cursor-pointer"
+            className="flex items-center justify-between px-4 py-8 cursor-pointer"
           >
             <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
@@ -249,7 +249,7 @@ export default function HomePage() {
 
         {/* Section 3: Vicino a me */}
         <Link href="/vicino">
-          <div className="flex items-center justify-between px-4 py-6 cursor-pointer">
+          <div className="flex items-center justify-between px-4 py-8 cursor-pointer">
             <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
                 style={{
