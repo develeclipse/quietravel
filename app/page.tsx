@@ -111,122 +111,122 @@ export default function HomePage() {
       <div 
         className="overflow-hidden"
         style={{
-          borderRadius: "28px",
-          backgroundColor: "#F5F3FF", // Very light purple
-          boxShadow: "0 4px 24px rgba(124, 95, 186, 0.12)",
+          borderRadius: "22px",
+          backgroundColor: "#F5F2FF",
+          boxShadow: "0 2px 16px rgba(124, 95, 186, 0.08)",
         }}
       >
         {/* Section 1: Ispirati */}
         <Link href="/ispirazioni">
           <div 
-            className="flex items-center justify-between p-6 cursor-pointer"
-            style={{ borderBottom: "1px solid rgba(124, 95, 186, 0.1)" }}
+            className="flex items-center justify-between px-4 py-3.5 cursor-pointer"
+            style={{ borderBottom: "1px solid #EDE9F0" }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div 
                 style={{
-                  width: "52px",
-                  height: "52px",
+                  width: "40px",
+                  height: "40px",
                   borderRadius: "50%",
-                  backgroundColor: "rgba(124, 95, 186, 0.15)",
+                  backgroundColor: "rgba(124, 95, 186, 0.12)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
                 }}
               >
-                <Sparkles style={{ width: "26px", height: "26px", color: "#7C5FBA" }} />
+                <Sparkles style={{ width: "20px", height: "20px", color: "#7C5FBA" }} />
               </div>
               <div>
                 <h3 
-                  className="font-sans font-semibold"
-                  style={{ fontSize: "18px", color: "#1A1A1A" }}
+                  className="font-sans font-medium"
+                  style={{ fontSize: "16px", color: "#1A1A1A", marginBottom: "2px" }}
                 >
                   Ispirati
                 </h3>
                 <p 
                   className="font-sans"
-                  style={{ fontSize: "14px", color: "#6B6B6B" }}
+                  style={{ fontSize: "13px", color: "#6B6B6B" }}
                 >
                   Collezioni, storie e destinazioni
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "20px", height: "20px", color: "#9B9B9B" }} />
+            <ChevronRight style={{ width: "16px", height: "16px", color: "#9B9B9B" }} />
           </div>
         </Link>
 
         {/* Section 2: Pianifica */}
         <Link href="/pianifica">
           <div 
-            className="flex items-center justify-between p-6 cursor-pointer"
-            style={{ borderBottom: "1px solid rgba(124, 95, 186, 0.1)" }}
+            className="flex items-center justify-between px-4 py-3.5 cursor-pointer"
+            style={{ borderBottom: "1px solid #EDE9F0" }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div 
                 style={{
-                  width: "52px",
-                  height: "52px",
+                  width: "40px",
+                  height: "40px",
                   borderRadius: "50%",
-                  backgroundColor: "rgba(95, 184, 148, 0.15)",
+                  backgroundColor: "rgba(95, 184, 148, 0.12)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
                 }}
               >
-                <Calendar style={{ width: "26px", height: "26px", color: "#5FB894" }} />
+                <Calendar style={{ width: "20px", height: "20px", color: "#5FB894" }} />
               </div>
               <div>
                 <h3 
-                  className="font-sans font-semibold"
-                  style={{ fontSize: "18px", color: "#1A1A1A" }}
+                  className="font-sans font-medium"
+                  style={{ fontSize: "16px", color: "#1A1A1A", marginBottom: "2px" }}
                 >
                   Pianifica
                 </h3>
                 <p 
                   className="font-sans"
-                  style={{ fontSize: "14px", color: "#6B6B6B" }}
+                  style={{ fontSize: "13px", color: "#6B6B6B" }}
                 >
                   Itinerari e pacchetti tematici
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "20px", height: "20px", color: "#9B9B9B" }} />
+            <ChevronRight style={{ width: "16px", height: "16px", color: "#9B9B9B" }} />
           </div>
         </Link>
 
         {/* Section 3: Vicino a me */}
         <Link href="/vicino">
-          <div className="flex items-center justify-between p-6 cursor-pointer">
-            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <div className="flex items-center justify-between px-4 py-3.5 cursor-pointer">
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div 
                 style={{
-                  width: "52px",
-                  height: "52px",
+                  width: "40px",
+                  height: "40px",
                   borderRadius: "50%",
-                  backgroundColor: "rgba(232, 168, 85, 0.15)",
+                  backgroundColor: "rgba(232, 168, 85, 0.12)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
                 }}
               >
-                <MapPin style={{ width: "26px", height: "26px", color: "#E8A855" }} />
+                <MapPin style={{ width: "20px", height: "20px", color: "#E8A855" }} />
               </div>
               <div>
                 <h3 
-                  className="font-sans font-semibold"
-                  style={{ fontSize: "18px", color: "#1A1A1A" }}
+                  className="font-sans font-medium"
+                  style={{ fontSize: "16px", color: "#1A1A1A", marginBottom: "2px" }}
                 >
                   Vicino a me
                 </h3>
                 <p 
                   className="font-sans"
-                  style={{ fontSize: "14px", color: "#6B6B6B" }}
+                  style={{ fontSize: "13px", color: "#6B6B6B" }}
                 >
                   Posti segreti e alternative quiet
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "20px", height: "20px", color: "#9B9B9B" }} />
+            <ChevronRight style={{ width: "16px", height: "16px", color: "#9B9B9B" }} />
           </div>
         </Link>
       </div>
