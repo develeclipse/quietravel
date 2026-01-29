@@ -50,27 +50,35 @@ export default function HomePage() {
   return (
     <div className="min-h-screen px-6 pt-4 pb-24">
       {/* Badge Anti-Overtourism */}
-      <div className="flex items-center gap-2 mb-6">
+      <div 
+        className="flex items-center gap-2 mb-6"
+        style={{
+          backgroundColor: "#FFFFFF",
+          borderRadius: "16px",
+          padding: "6px 12px 6px 8px",
+          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+          display: "inline-flex"
+        }}
+      >
         <div 
           style={{
-            width: "24px",
-            height: "24px",
-            borderRadius: "8px",
-            backgroundColor: "#FFFFFF",
-            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+            width: "20px",
+            height: "20px",
+            borderRadius: "6px",
+            backgroundColor: "#FFF8E7",
             display: "flex",
             alignItems: "center",
             justifyContent: "center"
           }}
         >
-          <Sparkles style={{ width: "12px", height: "12px", color: "#E8A855" }} />
+          <Sparkles style={{ width: "10px", height: "10px", color: "#E8A855" }} />
         </div>
         <span 
           className="font-sans font-semibold tracking-widest"
           style={{ 
-            fontSize: '10px',
+            fontSize: '9px',
             color: '#6B6B6B',
-            letterSpacing: '1.5px'
+            letterSpacing: '1px'
           }}
         >
           ANTI-OVERTOURISM
