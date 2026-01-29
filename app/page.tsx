@@ -1,6 +1,24 @@
-import { Sparkles, Calendar, MapPin, ChevronRight } from "lucide-react";
+import { Sparkles, Calendar, MapPin, ChevronRight, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { SearchBar } from "@/components/search-bar";
+
+// Featured collections
+const FEATURED_COLLECTIONS = [
+  {
+    id: "sud-italia",
+    name: "Sud Italia segreto",
+    subtitle: "10 perle nascoste",
+    image: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&q=80",
+    color: "#7C5FBA",
+  },
+  {
+    id: "mare-fuori-stagione",
+    name: "Mare fuori stagione",
+    subtitle: "Spiagge deserte",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
+    color: "#5FB894",
+  },
+];
 
 export default function HomePage() {
   return (
@@ -52,7 +70,7 @@ export default function HomePage() {
       </div>
 
       {/* 3 Action Cards */}
-      <div className="space-y-4">
+      <div className="space-y-4 mb-8">
         {/* Card 1: Ispirati */}
         <Link href="/ispirazioni">
           <div 
@@ -193,6 +211,62 @@ export default function HomePage() {
             <ChevronRight style={{ width: '20px', height: '20px', color: '#9B9B9B' }} />
           </div>
         </Link>
+      </div>
+
+      {/* Featured Collections */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-serif font-bold" style={{ fontSize: '22px', color: '#1A1A1A' }}>
+            In evidenza
+          </h2>
+          <Link href="/ispirazioni">
+            <span className="font-sans font-medium" style={{ fontSize: '13px', color: '#7C5FBA' }}>
+              Vedi tutte
+            </span>
+          </Link>
+        </div>
+
+        <div className="space-y-4">
+          {FEATURED_COLLECTIONS.map((collection) => (
+            <Link key={collection.id} href="/ispirazioni">
+              <div 
+                className="relative overflow-hidden cursor-pointer"
+                style={{
+                  borderRadius: '24px',
+                  height: '160px',
+                }}
+              >
+                <div 
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%), url(${collection.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    padding: '20px',
+                  }}
+                >
+                  <h3 className="font-serif font-semibold mb-1" style={{ fontSize: '20px', color: '#FFFFFF' }}>
+                    {collection.name}
+                  </h3>
+                  <p className="font-sans flex items-center gap-2" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.9)' }}>
+                    {collection.subtitle}
+                    <span 
+                      className="flex items-center gap-1 px-2 py-0.5 rounded-full"
+                      style={{ fontSize: '10px', backgroundColor: 'rgba(255,255,255,0.2)' }}
+                    >
+                      <TrendingUp style={{ width: '10px', height: '10px' }} />
+                      In tendenza
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
