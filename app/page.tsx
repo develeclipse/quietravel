@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sparkles, Calendar, MapPin, ChevronRight, X, TrendingUp, Search } from "lucide-react";
+import { Sparkles, Calendar, MapPin, X, TrendingUp, Search } from "lucide-react";
 import Link from "next/link";
 
 interface Destination {
@@ -113,7 +113,7 @@ export default function HomePage() {
         style={{
           borderRadius: "22px",
           backgroundColor: "#F5F2FF",
-          boxShadow: "0 2px 16px rgba(124, 95, 186, 0.08)",
+          boxShadow: "0 1px 8px rgba(0, 0, 0, 0.04)",
         }}
       >
         {/* Section 1: Ispirati */}
@@ -128,7 +128,8 @@ export default function HomePage() {
                   width: "40px",
                   height: "40px",
                   borderRadius: "50%",
-                  backgroundColor: "rgba(124, 95, 186, 0.12)",
+                  backgroundColor: "#FFFFFF",
+                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
@@ -151,7 +152,22 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "16px", height: "16px", color: "#9B9B9B" }} />
+            <div 
+              style={{
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+                backgroundColor: "#FFFFFF",
+                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </div>
           </div>
         </Link>
 
@@ -167,7 +183,8 @@ export default function HomePage() {
                   width: "40px",
                   height: "40px",
                   borderRadius: "50%",
-                  backgroundColor: "rgba(95, 184, 148, 0.12)",
+                  backgroundColor: "#FFFFFF",
+                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
@@ -190,7 +207,22 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "16px", height: "16px", color: "#9B9B9B" }} />
+            <div 
+              style={{
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+                backgroundColor: "#FFFFFF",
+                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </div>
           </div>
         </Link>
 
@@ -203,7 +235,8 @@ export default function HomePage() {
                   width: "40px",
                   height: "40px",
                   borderRadius: "50%",
-                  backgroundColor: "rgba(232, 168, 85, 0.12)",
+                  backgroundColor: "#FFFFFF",
+                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center"
@@ -226,7 +259,22 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
-            <ChevronRight style={{ width: "16px", height: "16px", color: "#9B9B9B" }} />
+            <div 
+              style={{
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+                backgroundColor: "#FFFFFF",
+                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </div>
           </div>
         </Link>
       </div>
