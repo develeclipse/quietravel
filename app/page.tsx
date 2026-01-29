@@ -127,7 +127,7 @@ export default function HomePage() {
                 style={{
                   width: "40px",
                   height: "40px",
-                  borderRadius: "50%",
+                  borderRadius: "12px",
                   backgroundColor: "#FFFFFF",
                   boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
                   display: "flex",
@@ -182,7 +182,7 @@ export default function HomePage() {
                 style={{
                   width: "40px",
                   height: "40px",
-                  borderRadius: "50%",
+                  borderRadius: "12px",
                   backgroundColor: "#FFFFFF",
                   boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
                   display: "flex",
@@ -234,7 +234,7 @@ export default function HomePage() {
                 style={{
                   width: "40px",
                   height: "40px",
-                  borderRadius: "50%",
+                  borderRadius: "12px",
                   backgroundColor: "#FFFFFF",
                   boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
                   display: "flex",
