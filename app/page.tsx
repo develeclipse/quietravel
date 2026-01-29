@@ -112,14 +112,14 @@ export default function HomePage() {
         className="overflow-hidden"
         style={{
           borderRadius: "22px",
-          backgroundColor: "#F5F2FF",
+          backgroundColor: "#FAFAFA",
           boxShadow: "0 1px 8px rgba(0, 0, 0, 0.04)",
         }}
       >
         {/* Section 1: Ispirati */}
         <Link href="/ispirazioni">
           <div 
-            className="flex items-center justify-between px-4 py-3.5 cursor-pointer"
+            className="flex items-center justify-between px-4 py-4 cursor-pointer"
           >
             <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
@@ -168,13 +168,13 @@ export default function HomePage() {
               </svg>
             </div>
           </div>
-          <div style={{ borderBottom: "1px solid #EDE9F0", marginLeft: "54px", marginRight: "4px" }} />
+          <div style={{ borderBottom: "1px solid #EDE9F0", marginLeft: "54px", marginRight: "60px" }} />
         </Link>
 
         {/* Section 2: Pianifica */}
         <Link href="/pianifica">
           <div 
-            className="flex items-center justify-between px-4 py-3.5 cursor-pointer"
+            className="flex items-center justify-between px-4 py-4 cursor-pointer"
           >
             <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
@@ -223,12 +223,12 @@ export default function HomePage() {
               </svg>
             </div>
           </div>
-          <div style={{ borderBottom: "1px solid #EDE9F0", marginLeft: "54px", marginRight: "4px" }} />
+          <div style={{ borderBottom: "1px solid #EDE9F0", marginLeft: "54px", marginRight: "60px" }} />
         </Link>
 
         {/* Section 3: Vicino a me */}
         <Link href="/vicino">
-          <div className="flex items-center justify-between px-4 py-3.5 cursor-pointer">
+          <div className="flex items-center justify-between px-4 py-4 cursor-pointer">
             <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
               <div 
                 style={{
